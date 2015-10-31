@@ -63,7 +63,7 @@ if [[ "${ENABLE_SSHD}" == "yes" ]]; then
     fi
 
     LAN_IP=$(hostname -i)
-    sed -i -e "s/#ListenAddress.*/ListenAddress $LAN_IP/g" /etc/ssh/sshd_config
+    #sed -i -e "s/#ListenAddress.*/ListenAddress $LAN_IP/g" /etc/ssh/sshd_config
     sed -i -e "s/#Port 22/Port 2222/g" /etc/ssh/sshd_config
     sed -i -e "s/#PermitRootLogin.*/PermitRootLogin yes/g" /etc/ssh/sshd_config
     sed -i -e "s/#PasswordAuthentication.*/PasswordAuthentication yes/g" /etc/ssh/sshd_config
@@ -144,7 +144,8 @@ sed -i -e "s/group = http/group = users/g" /etc/php/php-fpm.conf
 sed -i -e "s/listen.owner = http/listen.owner = nobody/g" /etc/php/php-fpm.conf
 sed -i -e "s/listen.group = http/listen.group = users/g" /etc/php/php-fpm.conf
 
-sed -i -e "s/open_basedir =.*/open_basedir = \/srv\/http\/:\/config\/rutorrent\//g" /etc/php/php.ini
+#sed -i -e "s/open_basedir =.*/open_basedir = \/srv\/http\/:\/config\/rutorrent\//g" /etc/php/php.ini
+sed -i -e "s/open_basedir =.*/; open_basedir = /g" /etc/php/php.ini
 
 # set up rtorrent
 #################
