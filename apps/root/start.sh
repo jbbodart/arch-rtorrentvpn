@@ -3,6 +3,17 @@
 # exit script if return code != 0
 set -e
 
+# set up variables
+##################
+
+if [[ ! -z "${RTORRENT_LISTEN_PORT}" ]]; then
+    RTORRENT_LISTEN_PORT=49314
+fi
+
+if [[ ! -z "${RTORRENT_DHT_PORT}" ]]; then
+    RTORRENT_LISTEN_PORT=49313
+fi
+
 # set up config directory
 #########################
 
@@ -12,7 +23,7 @@ mkdir -p /config/openvpn
 mkdir -p /config/privoxy
 mkdir -p /config/nginx
 mkdir -p /config/rtorrent/session
-mkdir -p /config/rutorrent/conf/
+mkdir -p /config/rutorrent/
 
 # set up data directory
 #########################
@@ -22,8 +33,10 @@ mkdir -p /data/downloads
 mkdir -p /data/torrents
 mkdir -p /data/seed
 mkdir -p /data/watch
-
 chown -R nobody:users /data/downloads /data/torrents /data/seed /data/watch
+
+# system set up
+###############
 
 # set up DNS
 # add in OpenNIC public nameservers
@@ -81,23 +94,16 @@ if [[ "${ENABLE_VPN}" == "yes" ]]; then
             exit 1
         fi
     done
-        
+    
     # remove ping and ping-restart from ovpn file if present, now using flag --keepalive
     if $(grep -Fq "ping" "${VPN_CONFIG}"); then
 	    sed -i '/ping.*/d' "${VPN_CONFIG}"
     fi
-        
-    # read port number and protocol from ovpn file (used to define iptables rule)
-    VPN_PORT=$(cat "${VPN_CONFIG}" | grep -P -o -m 1 '^remote\s[^\r\n]+' | grep -P -o -m 1 '[\d]+$')
-    VPN_PROTOCOL=$(cat "${VPN_CONFIG}" | grep -P -o -m 1 '(?<=proto\s)[^\r\n]+')
 
     # create the tunnel device
     [ -d /dev/net ] || mkdir -p /dev/net
     [ -c /dev/net/tun ] || mknod /dev/net/tun c 10 200
 
-    # get ip for local gateway (eth0)
-    DEFAULT_GATEWAY=$(ip route show default | awk '/default/ {print $3}')
-    
     # setup ip tables and routing for application
     source /root/iptables.sh
 
@@ -138,6 +144,8 @@ sed -i -e "s/group = http/group = users/g" /etc/php/php-fpm.conf
 sed -i -e "s/listen.owner = http/listen.owner = nobody/g" /etc/php/php-fpm.conf
 sed -i -e "s/listen.group = http/listen.group = users/g" /etc/php/php-fpm.conf
 
+sed -i -e "s/open_basedir =.*/open_basedir = \/srv\/http\/:\/config\/rutorrent\//g" /etc/php/php.ini
+
 # set up rtorrent
 #################
 
@@ -151,15 +159,18 @@ rm -f /config/rtorrent/session/rtorrent_scgi.socket
 ##################
 
 if [[ ! -f /config/rutorrent/conf/config.php ]]; then
-    cp -Rn /srv/http/rutorrent/conf.dist /config/rutorrent/conf
+    cp -an /srv/http/rutorrent/conf.dist /config/rutorrent/conf
+    cp /home/nobody/config/rutorrent/config.php /config/rutorrent/conf/
     rm -f /srv/http/rutorrent/conf
     ln -sf /config/rutorrent/conf /srv/http/rutorrent/conf
 fi
 
+mkdir -p /srv/http/rutorrent/tmp
+
 # set up permissions
 ####################
 
-chown -R nobody:users /config/privoxy /config/rtorrent /config/rutorrent
+chown -R nobody:users /config/privoxy /config/rtorrent /config/rutorrent /srv/http/rutorrent/tmp
 #chmod -R 775 /config/privoxy /config/deluge
 
 # start everything
@@ -182,8 +193,10 @@ fi
 
 echo "[info] Starting rtorrent..."
 supervisorctl start rtorrent
+
 echo "[info] Configuring rtorrent..."
 supervisorctl start rtorrent_config
+
 if [[ "${ENABLE_VPN}" == "yes" ]]; then  
 	echo "[info] Starting VPN IP monitoring..."
 	supervisorctl start rtorrent_setip
@@ -191,5 +204,6 @@ fi
 
 echo "[info] Starting php-fpm..."
 supervisorctl start php-fpm
+
 echo "[info] Starting nginx..."
 supervisorctl start nginx

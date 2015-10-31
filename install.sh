@@ -4,10 +4,13 @@
 set -e
 
 # define pacman packages
-pacman_packages="net-tools openresolv curl unzip openvpn privoxy openssh nginx php php-fpm rtorrent"
+pacman_packages="net-tools openresolv curl unzip openvpn privoxy openssh nginx php php-fpm rtorrent mediainfo ffmpeg unrar"
+
+# update packages
+pacman -Syu --ignore filesystem --noconfirm
 
 # install pre-reqs
-pacman -Sy --noconfirm
+#pacman -Sy --noconfirm
 pacman -S --needed $pacman_packages --noconfirm
 
 # set permissions

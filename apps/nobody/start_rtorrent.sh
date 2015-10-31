@@ -11,4 +11,4 @@ fi
 echo "[info] All checks complete, starting rtorrent..."
 
 # run rtorrent
-/usr/bin/rtorrent -n -o import=/config/rtorrent/rtorrent.rc
+/usr/bin/rtorrent -n -o import=/config/rtorrent/rtorrent.rc > /dev/null

@@ -17,14 +17,10 @@ if [[ "${RTORRENT_LISTEN_PORT}" =~ ^-?[0-9]+$ ]]; then
 	xmlrpc http://localhost:8080/RPC2 set_port_range "${RTORRENT_LISTEN_PORT}-${RTORRENT_LISTEN_PORT}"
 fi
 
-if [[ "${RTORRENT_DHT_LISTEN_PORT}" =~ ^-?[0-9]+$ ]]; then
-	echo "[info] configuring rtorrent dht listen port..."
+if [[ "${RTORRENT_DHT_PORT}" =~ ^-?[0-9]+$ ]]; then
+	echo "[info] configuring rtorrent dht port..."
 	# set dht port
-	xmlrpc http://localhost:8080/RPC2 set_dht_port "${RTORRENT_DHT_LISTEN_PORT}"
+	xmlrpc http://localhost:8080/RPC2 set_dht_port "${RTORRENT_DHT_PORT}"
 fi
 
 echo "[info] rtorrent configuration completed"
-
-
-
-
