@@ -153,8 +153,6 @@ sed -i -e "s/open_basedir =.*/; open_basedir = /g" /etc/php/php.ini
 if [[ ! -f /config/rtorrent/rtorrent.rc ]]; then
     cp /home/nobody/config/rtorrent/rtorrent.rc /config/rtorrent/rtorrent.rc
 fi
-rm -f /config/rtorrent/session/rtorrent.lock
-rm -f /config/rtorrent/session/rtorrent_scgi.socket
 
 # set up rutorrent
 ##################

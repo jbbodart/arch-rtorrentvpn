@@ -8,6 +8,10 @@ if [[ $VPN_ENABLED == "yes" ]]; then
 	source /home/nobody/checkvpn.sh
 fi
 
+# remove lock files
+rm -f /config/rtorrent/session/rtorrent.lock
+rm -f /config/rtorrent/session/rtorrent_scgi.socket
+
 echo "[info] All checks complete, starting rtorrent..."
 
 # run rtorrent

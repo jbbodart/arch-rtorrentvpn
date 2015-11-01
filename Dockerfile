@@ -5,7 +5,7 @@ MAINTAINER jbbodart
 ##################
 
 # add supervisor conf file for app
-ADD *.conf /etc/supervisor/conf.d/
+ADD *.conf /etc/supervisor.d/
 
 # add bash scripts to install app, and setup iptables, routing etc
 ADD *.sh /root/
@@ -45,4 +45,4 @@ EXPOSE 8118
 ################
 
 # run supervisor
-CMD ["supervisord", "-c", "/etc/supervisor.conf", "-n"]
+CMD ["supervisord", "-c", "/etc/supervisord.conf", "-n"]
