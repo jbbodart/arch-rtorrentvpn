@@ -25,14 +25,6 @@ chown -Rf root:root /root/.ssh
 # generate host keys
 /usr/bin/ssh-keygen -A
 
-# download and extract rutorrent
-#curl -L -O http://dl.bintray.com/novik65/generic/rutorrent-3.6.tar.gz
-#curl -L -O http://dl.bintray.com/novik65/generic/plugins-3.6.tar.gz
-#mkdir -p /srv/http/plugins
-#tar -C /srv/http --strip-components=1 -zxvf rutorrent-3.6.tar.gz
-#tar -C /srv/http -zxvf plugins-3.6.tar.gz
-#rm -f rutorrent-3.6.tar.gz plugins-3.6.tar.gz
-
 # download and extract rutorrent 3.7
 curl -L -O https://bintray.com/artifact/download/novik65/generic/ruTorrent-3.7.zip
 unzip -q ruTorrent-3.7.zip

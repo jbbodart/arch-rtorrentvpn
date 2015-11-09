@@ -35,6 +35,7 @@ mkdir -p /data/seed
 mkdir -p /data/watch
 chown -R nobody:users /data/downloads /data/torrents /data/seed /data/watch
 
+
 # system set up
 ###############
 
@@ -160,9 +161,21 @@ fi
 if [[ ! -f /config/rutorrent/conf/config.php ]]; then
     cp -an /srv/http/rutorrent/conf.dist /config/rutorrent/conf
     cp /home/nobody/config/rutorrent/config.php /config/rutorrent/conf/
+    cp -a /home/nobody/config/rutorrent/autotools.dat /srv/http/rutorrent/share/settings/
     rm -f /srv/http/rutorrent/conf
     ln -sf /config/rutorrent/conf /srv/http/rutorrent/conf
 fi
+
+# By default, disable every plugin
+enabled_plugins = ("autotools" "erasedata" "tracklabels" "geoip" "datadir" "diskspace" "_getdir") 
+
+for i in $(ls -1 /srv/http/rutorrent/plugins) ; do 
+    if [[ " ${enabled_plugins[@]} " =~ " ${i} " ]]; then
+	   echo -e "\n[$(basename ${i})]\nenabled=yes" >> /srv/http/rutorrent/conf/plugins.ini
+    else
+       echo -e "\n[$(basename ${i})]\nenabled=no" >> /srv/http/rutorrent/conf/plugins.ini
+    fi
+done
 
 mkdir -p /srv/http/rutorrent/tmp
 
