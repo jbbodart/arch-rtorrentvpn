@@ -103,3 +103,5 @@ scgi_local = /config/rtorrent/session/rtorrent_scgi.socket
 #log.open_file = "rtorrent.log", (cat,/config/rtorrent.log)
 #log.add_output = "info", "rtorrent.log"
 
+# Start rutorrent plugins
+execute = {sh,-c,/usr/bin/php /srv/http/rutorrent/php/initplugins.php &}
