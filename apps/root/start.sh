@@ -166,8 +166,8 @@ if [[ ! -f /config/rutorrent/conf/config.php ]]; then
     ln -sf /config/rutorrent/conf /srv/http/rutorrent/conf
 fi
 
-# By default, disable every plugin
-enabled_plugins=("autotools" "erasedata" "tracklabels" "geoip" "datadir" "diskspace" "_getdir") 
+# Select which plugins to enable
+enabled_plugins=("_getdir" "_noty" "_noty2" "_task" "autotools" "check_port" "chunks" "cookies" "cpuload" "data" "datadir" "diskspace" "erasedata" "extsearch" "geoip" "source" "tracklabels" "throttle" "trafic") 
 
 for i in $(ls -1 /srv/http/rutorrent/plugins) ; do 
     if [[ " ${enabled_plugins[@]} " =~ " ${i} " ]]; then
@@ -176,6 +176,9 @@ for i in $(ls -1 /srv/http/rutorrent/plugins) ; do
        echo -e "\n[$(basename ${i})]\nenabled=no" >> /srv/http/rutorrent/conf/plugins.ini
     fi
 done
+
+# Set autolools watch interval to 10s
+sed -i -e "s/\$autowatch_interval =.*/\$autowatch_interval = 10;/g" /srv/http/rutorrent/plugins/autotools/conf.php
 
 mkdir -p /srv/http/rutorrent/tmp
 
