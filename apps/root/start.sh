@@ -167,7 +167,7 @@ if [[ ! -f /config/rutorrent/conf/config.php ]]; then
 fi
 
 # By default, disable every plugin
-enabled_plugins = ("autotools" "erasedata" "tracklabels" "geoip" "datadir" "diskspace" "_getdir") 
+enabled_plugins=("autotools" "erasedata" "tracklabels" "geoip" "datadir" "diskspace" "_getdir") 
 
 for i in $(ls -1 /srv/http/rutorrent/plugins) ; do 
     if [[ " ${enabled_plugins[@]} " =~ " ${i} " ]]; then
