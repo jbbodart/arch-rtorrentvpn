@@ -25,7 +25,6 @@ mkdir -p /config/privoxy
 mkdir -p /config/nginx
 mkdir -p /config/rtorrent/session
 mkdir -p /config/rutorrent
-mkdir -p /config/log
 
 # set up data directory
 #########################
@@ -159,6 +158,8 @@ fi
 # set up rutorrent
 ##################
 
+mkdir -p /srv/http/rutorrent/tmp
+
 if [[ ! -f /config/rutorrent/conf/config.php ]]; then
     rm -rf /config/rutorrent/conf
     cp -a /srv/http/rutorrent/conf.dist /config/rutorrent/conf
@@ -179,10 +180,12 @@ for i in $(ls -1 /srv/http/rutorrent/plugins) ; do
     fi
 done
 
+# set up autotools
+if [[ ! -f /srv/http/rutorrent/share/settings/autotools.dat ]]; then
+    cp -af /home/nobody/config/rutorrent/autotools.dat /srv/http/rutorrent/share/settings/
+fi
 # Set autolools watch interval to 10s
 sed -i -e "s/\$autowatch_interval =.*/\$autowatch_interval = 10;/g" /srv/http/rutorrent/plugins/autotools/conf.php
-
-mkdir -p /srv/http/rutorrent/tmp
 
 # set up permissions
 ####################
