@@ -31,12 +31,11 @@ mkdir -p /config/log
 #########################
 
 echo_log "[info] Creating data directories..."
+mkdir -p /data/incomplete
 mkdir -p /data/downloads
-mkdir -p /data/torrents
-mkdir -p /data/seed
 mkdir -p /data/watch
-chown -R nobody:users /data/downloads /data/torrents /data/seed /data/watch
-chmod -R 777 /data/downloads /data/torrents /data/seed /data/watch
+chown -R nobody:users /data/incomplete /data/downloads /data/watch
+chmod -R 777 /data/incomplete /data/downloads /data/watch
 
 # system set up
 ###############

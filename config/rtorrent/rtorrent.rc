@@ -18,7 +18,7 @@
 #upload_rate = 0
 
 # Default directory to save the downloaded torrents.
-directory = /data/downloads/
+directory = /data/incomplete/
 
 # Default session directory. Make sure you don't run multiple instance
 # of rtorrent using the same session directory. Perhaps using a
@@ -36,7 +36,7 @@ session = /config/rtorrent/session/
 
 # Move finished torrents
 # system.method.set_key = event.download.finished,rm_torrent,"execute=rm,$d.get_tied_to_file="
-# system.method.set_key = event.download.finished,move_complete,"d.set_directory=/data/seed/;execute=mv,-u,$d.get_base_path=,/data/seed/"
+# system.method.set_key = event.download.finished,move_complete,"d.set_directory=/data/downloads/;execute=mv,-u,$d.get_base_path=,/data/downloads/"
 
 # Close torrents when diskspace is low.
 #schedule = low_diskspace,5,60,close_low_diskspace=100M
