@@ -1,4 +1,5 @@
 #!/bin/bash
+source /home/nobody/functions.sh
 
 # create function to check tunnel local ip is valid and interface is up
 check_valid_ip() {
@@ -20,7 +21,7 @@ check_valid_ip() {
 LOCAL_IP=$(ip addr | awk '/inet/ && /tun0/{sub(/\/.*$/,"",$2); print $2}')
 while ! check_valid_ip "$LOCAL_IP"
 do
-	echo "[info] Waiting for a valid VPN tunnel..."
+	echo_log "[info] Waiting for a valid VPN tunnel..."
 	sleep 5
 	LOCAL_IP=$(ip addr | awk '/inet/ && /tun0/{sub(/\/.*$/,"",$2); print $2}')
 done

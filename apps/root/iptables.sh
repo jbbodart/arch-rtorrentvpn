@@ -1,4 +1,5 @@
 #!/bin/bash
+source /home/nobody/functions.sh
 
 # get ip for local gateway (eth0)
 DEFAULT_GATEWAY=$(ip route show default | awk '/default/ {print $3}')
@@ -9,7 +10,7 @@ VPN_IP=$(/usr/bin/awk '$1=="remote"{print $2}' "${VPN_CONFIG}")
 VPN_PORT=$(/usr/bin/awk '$1=="remote"{print $3}' "${VPN_CONFIG}")
 VPN_PROTOCOL=$(/usr/bin/awk '$1=="proto"{print $2}' "${VPN_CONFIG}")
 
-echo "[info] setting up routing table..."
+echo_log "[info] setting up routing table..."
 
 # setup route for rutorrent/nginx using set-mark to route traffic for port 8080 to eth0
 if ! grep "rutorrent" /etc/iproute2/rt_tables ; then
@@ -36,10 +37,10 @@ if [[ $ENABLE_SSHD == "yes" ]]; then
 	ip route add default via $DEFAULT_GATEWAY table sshd
 fi
 
-echo "[info] Done. IP routing table :"
+echo_log "[info] Done. IP routing table :"
 ip route show table all
 
-echo "[info] Configuring iptables..."
+echo_log "[info] Configuring iptables..."
 
 # input iptable rules
 #####################
@@ -100,5 +101,5 @@ fi
 # accept output for dns lookup
 #iptables -A OUTPUT -p udp --dport 53 -j ACCEPT
 
-echo "[info] Done. iptables rules :"
+echo_log "[info] Done. iptables rules :"
 iptables -S
