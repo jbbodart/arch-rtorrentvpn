@@ -4,7 +4,7 @@
 set -e
 
 # define pacman packages
-pacman_packages="net-tools openresolv curl unzip openvpn privoxy openssh nginx php php-fpm rtorrent mediainfo ffmpeg unrar"
+pacman_packages="net-tools openresolv curl unzip openvpn privoxy openssh nginx php php-fpm rtorrent mediainfo ffmpeg unrar php-geoip"
 
 # update packages
 pacman -Syu --ignore filesystem --noconfirm
@@ -35,6 +35,12 @@ chown -Rf nobody:users /srv/http/rutorrent
 # backup original conf dir
 mv /srv/http/rutorrent/conf /srv/http/rutorrent/conf.dist
 rm -f ruTorrent-3.7.zip
+
+# for geoip plugin
+curl -O http://geolite.maxmind.com/download/geoip/database/GeoLiteCity.dat.gz
+gunzip GeoLiteCity.dat.gz
+mkdir -p /usr/share/GeoIP
+mv -v GeoLiteCity.dat /usr/share/GeoIP/GeoIPCity.dat
 
 # cleanup
 yes|pacman -Scc
