@@ -1,12 +1,15 @@
-**rtorrent + OpenVPN + Privoxy**
+Arch Linux : rtorrent + OpenVPN + Privoxy
+=========================================
 
-[rtorrent website](https://github.com/rakshasa/rtorrent)
+arch linux : https://www.archlinux.org/
 
-[ruTorrent website] (https://github.com/Novik/ruTorrent)
+rtorrent : https://github.com/rakshasa/rtorrent
 
-[OpenVPN website](https://openvpn.net/)
+rutorrent : https://github.com/Novik/ruTorrent
 
-[Privoxy website](http://www.privoxy.org/)
+openvpn : https://openvpn.net/
+
+privoxy : http://www.privoxy.org/
 
 **Description**
 
@@ -82,3 +85,8 @@ docker run -d -p 8112:8112 -p 8118:8118 -p 2222:2222 --name=rtorrentvpn -v /dock
 To start downloading, place a .torrent file in the /data/watch directory.
 
 Completed downloads are stored in /data/downloads.
+
+**Advanced configuration**
+
+Config files for rtorrent, rutorrent, openvpn, privoxy and nginx are located in the /config directory and can be modified (may need to restart the container).
+
