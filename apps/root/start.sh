@@ -140,10 +140,10 @@ fi
 ################
 
 sed -i -e "s/;daemonize =.*/daemonize = no/g" /etc/php/php-fpm.conf
-sed -i -e "s/user = http/user = nobody/g" /etc/php/php-fpm.conf
-sed -i -e "s/group = http/group = users/g" /etc/php/php-fpm.conf
-sed -i -e "s/listen.owner = http/listen.owner = nobody/g" /etc/php/php-fpm.conf
-sed -i -e "s/listen.group = http/listen.group = users/g" /etc/php/php-fpm.conf
+sed -i -e "s/user = http/user = nobody/g" /etc/php/php-fpm.conf/php-fpm.d/www.conf
+sed -i -e "s/group = http/group = users/g" /etc/php/php-fpm.conf/php-fpm.d/www.conf
+sed -i -e "s/listen.owner = http/listen.owner = nobody/g" /etc/php/php-fpm.conf/php-fpm.d/www.conf
+sed -i -e "s/listen.group = http/listen.group = users/g" /etc/php/php-fpm.conf/php-fpm.d/www.conf
 
 #sed -i -e "s/open_basedir =.*/open_basedir = \/srv\/http\/:\/config\/rutorrent\//g" /etc/php/php.ini
 sed -i -e "s/open_basedir =.*/; open_basedir = /g" /etc/php/php.ini
