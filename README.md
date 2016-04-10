@@ -31,6 +31,7 @@ docker run -d \
 	--name=<container name> \
 	-v <path for data files>:/data \
 	-v <path for config files>:/config \
+	-e LOCAL_LAN=<local network in CIDR notation> \
 	-e ENABLE_VPN=<yes|no> \
 	-e ENABLE_PRIVOXY=<yes|no> \
 	-e ENABLE_SSHD=<yes|no> \
@@ -62,6 +63,8 @@ No password required.
 3. Start rtorrentvpn docker
 
 **Execute in Docker on Synology**
+
+/!\ Container broken in DSM6.
 
 1. Before running this container, you must make sure that mandatory kernel modules are loaded.
 SSH as root to your Sylology NAS and insmod the following modules :
