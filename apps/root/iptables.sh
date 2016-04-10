@@ -12,6 +12,13 @@ VPN_PROTOCOL=$(/usr/bin/awk '$1=="proto"{print $2}' "${VPN_CONFIG}")
 
 echo_log "[info] setting up routing table..."
 
+# setup route for local network
+if [[ ! -z "${LAN_NETWORK}" ]]; then
+	echo "[info] Adding ${LAN_NETWORK} as route via docker eth0"
+	ip route add "${LAN_NETWORK}" via "${DEFAULT_GATEWAY}" dev eth0
+fi
+
+
 # setup route for rutorrent/nginx using set-mark to route traffic for port 8080 to eth0
 if ! grep "rutorrent" /etc/iproute2/rt_tables ; then
 	echo "8080    rutorrent" >> /etc/iproute2/rt_tables
