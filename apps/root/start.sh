@@ -95,7 +95,8 @@ fi
 if [[ ! -d /config/nginx ]]; then
     mkdir /config/nginx
     if [[ ! -f /config/nginx/nginx.conf ]]; then
-    cp /home/nobody/config/nginx/nginx.conf /config/nginx/
+        cp /home/nobody/config/nginx/nginx.conf /config/nginx/
+    fi
 fi
 
 # set up rtorrent
