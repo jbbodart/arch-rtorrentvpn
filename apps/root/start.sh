@@ -115,12 +115,13 @@ fi
 mkdir -p /srv/http/rutorrent/tmp
 
 if [[ ! -d /config/rutorrent ]]; then
+    rm -rf /config/rutorrent
     mkdir -p /config/rutorrent/conf
     cp -a /srv/http/rutorrent/conf.dist/* /config/rutorrent/conf/
     cp -af /home/nobody/config/rutorrent/config.php /config/rutorrent/conf/
-    rm -rf /srv/http/rutorrent/conf
-    ln -sf /config/rutorrent/conf /srv/http/rutorrent/conf
 fi
+rm -rf /srv/http/rutorrent/conf
+ln -sf /config/rutorrent/conf /srv/http/rutorrent/conf
 
 # Select which plugins to enable
 enabled_plugins=("_getdir" "_noty" "_noty2" "_task" "autotools" "check_port" "chunks" "cookies" "cpuload" "data" "datadir" "diskspace" "erasedata" "extsearch" "source" "tracklabels" "throttle" "trafic") 
