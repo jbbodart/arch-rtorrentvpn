@@ -114,7 +114,7 @@ fi
 
 mkdir -p /srv/http/rutorrent/tmp
 
-if [[ ! -d /config/rutorrent ]]; then
+if [[ ! -d /config/rutorrent/conf ]]; then
     rm -rf /config/rutorrent
     mkdir -p /config/rutorrent/conf
     cp -a /srv/http/rutorrent/conf.dist/* /config/rutorrent/conf/
