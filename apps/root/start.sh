@@ -125,7 +125,7 @@ fi
 # Select which plugins to enable
 enabled_plugins=("_getdir" "_noty" "_noty2" "_task" "autotools" "check_port" "chunks" "cookies" "cpuload" "data" "datadir" "diskspace" "erasedata" "extsearch" "source" "tracklabels" "throttle" "trafic") 
 
-touch /srv/http/rutorrent/conf/plugins.ini
+mkdir -p /srv/http/rutorrent/conf/
 for i in $(ls -1 /srv/http/rutorrent/plugins) ; do 
     if [[ " ${enabled_plugins[@]} " =~ " ${i} " ]]; then
        echo -e "\n[$(basename ${i})]\nenabled=yes" >> /srv/http/rutorrent/conf/plugins.ini
