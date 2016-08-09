@@ -64,8 +64,6 @@ No password required.
 
 **Execute in Docker on Synology**
 
-/!\ Container broken in DSM6.
-
 1. Before running this container, you must make sure that mandatory kernel modules are loaded.
 SSH as root to your Sylology NAS and insmod the following modules :
 ```
