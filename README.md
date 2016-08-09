@@ -27,14 +27,11 @@ docker run -d \
 	--cap-add=NET_ADMIN \
 	-p 8080:8080 \
 	-p 8118:8118 \
-	-p 2222:2222 \
 	--name=<container name> \
 	-v <path for data files>:/data \
 	-v <path for config files>:/config \
-	-e LOCAL_LAN=<local network in CIDR notation> \
 	-e ENABLE_VPN=<yes|no> \
 	-e ENABLE_PRIVOXY=<yes|no> \
-	-e ENABLE_SSHD=<yes|no> \
 	-e RTORRENT_LISTEN_PORT=<port no> \	
 	-e RTORRENT_DHT_PORT=<port no> \		
 	jbbodart/arch-rtorrentvpn
@@ -49,12 +46,6 @@ Please replace all user variables in the above command defined by <> with the co
 **Access Privoxy**
 
 `http://<host ip>:8118`
-
-**SSH to docker**
-
-`ssh -p 2222 root@<host ip>`
-
-No password required.
 
 **Setting up VPN**
 
@@ -75,7 +66,7 @@ insmod /lib/modules/xt_mark.ko
 3. Create a directory for the container data (eg /docker/data and /docker/config)
 4. Launch container with "Docker Run" command. For exemple :
 ```
-docker run -d -p 8112:8112 -p 8118:8118 -p 2222:2222 --name=rtorrentvpn -v /docker/data:/data -v /docker/config:/config -e ENABLE_VPN=yes -e ENABLE_PRIVOXY=yes -e ENABLE_SSHD=yes -e RTORRENT_LISTEN_PORT=49314 -e RTORRENT_DHT_PORT=49313 jbbodart/arch-rtorrentvpn
+docker run -d -p 8112:8112 -p 8118:8118 --name=rtorrentvpn -v /docker/data:/data -v /docker/config:/config -e ENABLE_VPN=yes -e ENABLE_PRIVOXY=yes -e RTORRENT_LISTEN_PORT=49314 -e RTORRENT_DHT_PORT=49313 jbbodart/arch-rtorrentvpn
 ```
 5. Synology Docker GUI does not support "--cap-add=NET_ADMIN" option. Plese go to "Advanced Setting" -> "Environnement" and check "Using high privilege execute container"
 6. Stop container and copy your .ovpn file in the /docker/DelugeVPN/config/openvpn/ folder
