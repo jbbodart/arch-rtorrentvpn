@@ -15,12 +15,6 @@ if [[ ! -z "${RTORRENT_DHT_PORT}" ]]; then
     RTORRENT_LISTEN_PORT=49313
 fi
 
-# set up config directory
-#########################
-
-echo_log "[info] Creating config directories..."
- 
-
 # set up data directory
 #########################
 
@@ -34,10 +28,11 @@ chmod -R 777 /data/incomplete /data/downloads /data/watch
 # set up openvpn
 ################
 
+echo_log "[info] Configuring OpenVPN..."
+
 mkdir -p /config/openvpn
 
 if [[ "${ENABLE_VPN}" == "yes" ]]; then
-    echo_log "[info] Configuring OpenVPN client..."
     # wildcard search for openvpn config files
     VPN_CONFIG=$(find /config/openvpn -maxdepth 1 -name "*.ovpn" -print)
         
@@ -48,7 +43,7 @@ if [[ "${ENABLE_VPN}" == "yes" ]]; then
     fi
         
     # chek for kernel modules
-    for i in "tun" "xt_mark" "iptable_mangle" ; do
+    for i in "tun" ; do
         if [[ $(lsmod | awk -v module="$i" '$1==module {print $1}' | wc -l) -eq 0 ]] ; then
             echo_log "[crit] Missing $i kernel module. Please insmod and restart container"
             exit 1
@@ -92,6 +87,9 @@ fi
 
 # set up nginx
 ##############
+
+echo_log "[info] Configuring Nginx..."
+
 if [[ ! -d /config/nginx ]]; then
     mkdir /config/nginx
     if [[ ! -f /config/nginx/nginx.conf ]]; then
@@ -99,8 +97,12 @@ if [[ ! -d /config/nginx ]]; then
     fi
 fi
 
+echo_log "[info] Nginx configuration done"
+
 # set up rtorrent
 #################
+
+echo_log "[info] Configuring rtorrent..."
 
 if [[ ! -d /config/rtorrent ]]; then
     mkdir -p /config/rtorrent/session
@@ -109,8 +111,12 @@ if [[ ! -d /config/rtorrent ]]; then
     fi
 fi
 
+echo_log "[info] rtorrent configuration done"
+
 # set up rutorrent
 ##################
+
+echo_log "[info] Configuring rutorrent..."
 
 mkdir -p /srv/http/rutorrent/tmp
 
@@ -125,8 +131,6 @@ ln -sf /config/rutorrent/conf /srv/http/rutorrent/conf
 
 # Select which plugins to enable
 enabled_plugins=("_getdir" "_noty" "_noty2" "_task" "autotools" "check_port" "chunks" "cookies" "cpuload" "data" "datadir" "diskspace" "erasedata" "extsearch" "source" "tracklabels" "throttle" "trafic") 
-
-mkdir -p /srv/http/rutorrent/conf/
 for i in $(ls -1 /srv/http/rutorrent/plugins) ; do 
     if [[ " ${enabled_plugins[@]} " =~ " ${i} " ]]; then
        echo -e "\n[$(basename ${i})]\nenabled=yes" >> /srv/http/rutorrent/conf/plugins.ini
@@ -142,19 +146,16 @@ fi
 # Set autolools watch interval to 10s
 sed -i -e "s/\$autowatch_interval =.*/\$autowatch_interval = 10;/g" /srv/http/rutorrent/plugins/autotools/conf.php
 
+echo_log "[info] rutorrent configuration done"
+
 # set up permissions
 ####################
 
+echo_log "[info] setting up permissions"
 chown -R nobody:users /config/privoxy /config/rtorrent /config/rutorrent /srv/http/rutorrent/tmp
-#chmod -R 775 /config/privoxy /config/deluge
 
 # start everything
 ##################
-
-if [[ "${ENABLE_SSHD}" == "yes" ]]; then
-    echo_log "[info] Starting OpenSSH daemon..."
-    supervisorctl start sshd
-fi
 
 if [[ "${ENABLE_VPN}" == "yes" ]]; then
     echo_log "[info] Starting OpenVPN..."
