@@ -36,8 +36,6 @@ VOLUME /data
 
 # expose port for rutorrent
 EXPOSE 8080
-# expose port for OpenSSH server
-EXPOSE 2222
 # expose port for privoxy
 EXPOSE 8118
 
