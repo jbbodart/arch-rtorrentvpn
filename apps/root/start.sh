@@ -7,12 +7,12 @@ set -e
 # set up variables
 ##################
 
-if [[ ! -z "${RTORRENT_LISTEN_PORT}" ]]; then
+if [[ -z "${RTORRENT_LISTEN_PORT}" ]]; then
     RTORRENT_LISTEN_PORT=49314
 fi
 
-if [[ ! -z "${RTORRENT_DHT_PORT}" ]]; then
-    RTORRENT_LISTEN_PORT=49313
+if [[ -z "${RTORRENT_DHT_PORT}" ]]; then
+    RTORRENT_DHT_PORT=49313
 fi
 
 # set up data directory
