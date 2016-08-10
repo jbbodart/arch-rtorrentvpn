@@ -15,7 +15,7 @@ echo 'nameserver 92.222.80.28' >> /etc/resolv.conf
 echo 'nameserver 5.135.183.146' >> /etc/resolv.conf
 
 # define pacman packages
-pacman_packages="net-tools openresolv curl unzip nginx php php-fpm openvpn privoxy rtorrent"
+pacman_packages="net-tools dnsutils openresolv curl unzip nginx php php-fpm openvpn privoxy rtorrent"
 
 # update packages
 pacman -Syyu --ignore filesystem --noconfirm
