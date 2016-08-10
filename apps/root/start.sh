@@ -176,6 +176,8 @@ supervisorctl start rtorrent_config
 if [[ "${ENABLE_VPN}" == "yes" ]]; then  
 	echo_log "[info] Starting VPN IP monitoring..."
 	supervisorctl start rtorrent_setip
+	echo_log "[info] Starting VPN connection watchdog..."
+	supervisorctl start connection_watchdog
 fi
 
 echo_log "[info] Starting php-fpm..."
