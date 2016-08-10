@@ -16,14 +16,12 @@ iptables -P INPUT DROP
 iptables -P OUTPUT DROP
 iptables -P FORWARD DROP
 
-# Loopback
-iptables -A INPUT -i lo -j ACCEPT
-iptables -A OUTPUT -o lo -j ACCEPT
+# allow already established connections
+iptables -A INPUT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
+iptables -A OUTPUT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
 
 # VPN tunnel adapter
-iptables -A INPUT -i tun0 -m state --state RELATED,ESTABLISHED -j ACCEPT
 iptables -A INPUT -i tun0 -p tcp --dport ${RTORRENT_LISTEN_PORT} -j ACCEPT
-iptables -A INPUT -i tun0 -p udp --dport ${RTORRENT_LISTEN_PORT} -j ACCEPT
 iptables -A INPUT -i tun0 -p udp --dport ${RTORRENT_DHT_PORT} -j ACCEPT
 iptables -A OUTPUT -o tun0 -j ACCEPT
 
@@ -39,6 +37,10 @@ if [[ $ENABLE_PRIVOXY == "yes" ]]; then
 	iptables -A INPUT -i eth0 -p tcp --dport 8118 -j ACCEPT
 	iptables -A OUTPUT -o eth0 -p tcp --sport 8118 -j ACCEPT
 fi
+
+# Loopback
+iptables -A INPUT -i lo -j ACCEPT
+iptables -A OUTPUT -o lo -j ACCEPT
 
 echo_log "[info] Done. iptables rules :"
 iptables -S
