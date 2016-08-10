@@ -18,8 +18,11 @@ to tunnel torrent traffic securely (using iptables to block any
 traffic not bound for tunnel).
 
 ruTorrent v3.7 included for rtorrent GUI.
+Also includes Privoxy to allow http|https traffic through the VPN.
 
-This also includes Privoxy to allow unfiltered http|https traffic through the VPN.
+This container has been designed to work on Synology devices, but it should run on every Linux host
+(tun kernel module and iptables required for VPN).
+Tested with DSM 6.0.1-7393 Update 2.
 
 **Usage**
 ```
@@ -55,22 +58,13 @@ Please replace all user variables in the above command defined by <> with the co
 
 **Execute in Docker on Synology**
 
-1. Before running this container, you must make sure that mandatory kernel modules are loaded.
-SSH as root to your Sylology NAS and insmod the following modules :
-```
-insmod /lib/modules/tun.ko
-insmod /lib/modules/iptable_mangle.ko
-insmod /lib/modules/xt_mark.ko
-```
-2. Download container image by searching jbbodart/rtorrentvpn on Docker Hub Registry
-3. Create a directory for the container data (eg /docker/data and /docker/config)
-4. Launch container with "Docker Run" command. For exemple :
-```
-docker run -d -p 8112:8112 -p 8118:8118 --name=rtorrentvpn -v /docker/data:/data -v /docker/config:/config -e ENABLE_VPN=yes -e ENABLE_PRIVOXY=yes -e RTORRENT_LISTEN_PORT=49314 -e RTORRENT_DHT_PORT=49313 jbbodart/arch-rtorrentvpn
-```
-5. Synology Docker GUI does not support "--cap-add=NET_ADMIN" option. Plese go to "Advanced Setting" -> "Environnement" and check "Using high privilege execute container"
-6. Stop container and copy your .ovpn file in the /docker/DelugeVPN/config/openvpn/ folder
-7. Restart container
+1. Create a directory for the container data (eg /docker/data and /docker/config)
+2. Start Synology Docker GUI
+3. Download container image by searching jbbodart/rtorrentvpn on Docker Hub Registry
+4. Create a new container using this image. You need to check the "Execute container using high privilege" box for iptables to work. 
+6. Start container to populate the config directory
+7. Stop container and copy your .ovpn file in the /docker/config/openvpn/ folder
+8. Restart container
 
 **Using the container**
 
