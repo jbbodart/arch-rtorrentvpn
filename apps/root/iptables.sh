@@ -21,6 +21,7 @@ iptables -A INPUT -i lo -j ACCEPT
 iptables -A OUTPUT -o lo -j ACCEPT
 
 # VPN tunnel adapter
+iptables -A INPUT -i tun0 -m state --state RELATED,ESTABLISHED -j ACCEPT
 iptables -A INPUT -i tun0 -p tcp --dport ${RTORRENT_LISTEN_PORT} -j ACCEPT
 iptables -A INPUT -i tun0 -p udp --dport ${RTORRENT_LISTEN_PORT} -j ACCEPT
 iptables -A INPUT -i tun0 -p udp --dport ${RTORRENT_DHT_PORT} -j ACCEPT
@@ -30,11 +31,9 @@ iptables -A OUTPUT -o tun0 -j ACCEPT
 # VPN
 iptables -A INPUT -i eth0 -s ${VPN_IP} -p ${VPN_PROTOCOL} --sport ${VPN_PORT} -j ACCEPT
 iptables -A OUTPUT -o eth0 -d ${VPN_IP} -p ${VPN_PROTOCOL} --dport ${VPN_PORT} -j ACCEPT
-
 # rutorrent/nginx
 iptables -A INPUT -i eth0 -p tcp --dport 8080 -j ACCEPT
 iptables -A OUTPUT -o eth0 -p tcp --sport 8080 -j ACCEPT
-
 # privoxy if enabled
 if [[ $ENABLE_PRIVOXY == "yes" ]]; then
 	iptables -A INPUT -i eth0 -p tcp --dport 8118 -j ACCEPT
