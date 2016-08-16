@@ -2,7 +2,7 @@
 source /home/nobody/functions.sh
 
 # Maximum percent packet loss before a restart
-maxPloss=10 
+maxPloss=50
 
 restart_openvpn() {
   echo_log "[info] Killing OpenVPN..."
