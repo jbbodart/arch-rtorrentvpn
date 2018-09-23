@@ -1,3 +1,6 @@
+*This repo is deprecated. Please use https://github.com/jbbodart/alpine-rtorrentvpn instead.*
+
+
 Arch Linux : rtorrent + OpenVPN + Privoxy
 =========================================
 
